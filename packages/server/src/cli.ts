@@ -30,7 +30,7 @@ commander.version(process.env.VERSION || "development")
 	.option("-N, --no-auth", "Start without requiring authentication.", false)
 	.option("-H, --allow-http", "Allow http connections.", false)
 	.option("-P, --password <value>", "DEPRECATED: Use the PASSWORD environment variable instead. Specify a password for authentication.")
-	.option("--disable-telemetry", "Disables ALL telemetry.", false)
+	.option("--enable-telemetry", "Disables ALL telemetry.", false)
 	.option("--socket <value>", "Listen on a UNIX socket. Host and port will be ignored when set.")
 	.option("--install-extension <value>", "Install an extension by its ID.")
 	.option("--bootstrap-fork <name>", "Used for development. Never set.")
@@ -55,7 +55,7 @@ const bold = (text: string | number): string | number => {
 		readonly allowHttp: boolean;
 		readonly host: string;
 		readonly port: number;
-		readonly disableTelemetry: boolean;
+		readonly enableTelemetry: boolean;
 
 		readonly userDataDir?: string;
 		readonly extensionsDir?: string;
@@ -73,7 +73,7 @@ const bold = (text: string | number): string | number => {
 		readonly extraArgs?: string;
 	};
 
-	if (options.disableTelemetry) {
+	if (!options.enableTelemetry) {
 		process.env.DISABLE_TELEMETRY = "true";
 	}
 
@@ -307,7 +307,7 @@ const bold = (text: string | number): string | number => {
 	} else {
 		logger.warn("Launched without authentication.");
 	}
-	if (options.disableTelemetry) {
+	if (!options.enableTelemetry) {
 		logger.info("Telemetry is disabled");
 	}
 
